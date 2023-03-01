@@ -24,6 +24,13 @@ custom:
   eventBusArn: arn:aws:events:${aws:region}:${self:custom.awsAccountNumber}:event-bus/${self:custom.eventBusName}
 
 functions:
+  SimpleGreeter:
+    handler: src/basic/demo.handler
+    events:
+      - httpApi:
+          method: GET
+          path: /
+
   Greeter:
     handler: src/clean/infrastructure/adapters/Greeter.handler
     events:
