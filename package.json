@@ -1,0 +1,56 @@
+{
+  "name": "serverless-demo",
+  "version": "1.0.0",
+  "description": "Opinionated minimalist realist serverless starter",
+  "author": "Mikael Vesavuori",
+  "license": "MIT",
+  "keywords": [
+    "serverless",
+    "template",
+    "boilerplate",
+    "starter"
+  ],
+  "scripts": {
+    "start": "npx sls offline --reloadHandler",
+    "test": "npx c8 -reporter=lcov ava",
+    "build": "npx sls package",
+    "deploy": "npx sls deploy",
+    "teardown": "npx sls remove"
+  },
+  "dependencies": {
+    "@aws-sdk/client-eventbridge": "3"
+  },
+  "devDependencies": {
+    "@ava/typescript": "3",
+    "@types/aws-lambda": "8",
+    "@types/node": "18",
+    "@typescript-eslint/eslint-plugin": "5",
+    "@typescript-eslint/parser": "5",
+    "ava": "5",
+    "c8": "7",
+    "eslint": "8",
+    "eslint-config-prettier": "8",
+    "eslint-plugin-prettier": "4",
+    "prettier": "2",
+    "serverless": "3",
+    "serverless-esbuild": "1",
+    "serverless-iam-roles-per-function": "3",
+    "serverless-offline": "12",
+    "ts-node": "10",
+    "typescript": "4"
+  },
+  "ava": {
+    "typescript": {
+      "rewritePaths": {
+        "src/": "lib/"
+      },
+      "compile": false
+    },
+    "files": [
+      "tests/*.test.ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  }
+}

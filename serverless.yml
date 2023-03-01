@@ -1,0 +1,51 @@
+service: serverless-demo
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  architecture: arm64
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'eu-north-1'}
+  memorySize: ${opt:memory, 256}
+  timeout: ${opt:timeout, 10}
+  logRetentionInDays: ${opt:logRetentionInDays, 1}
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+  - serverless-iam-roles-per-function
+
+package:
+  individually: true
+
+custom:
+  awsAccountNumber: 357531554841
+  eventBusName: demobus
+  eventBusArn: arn:aws:events:${aws:region}:${self:custom.awsAccountNumber}:event-bus/${self:custom.eventBusName}
+
+functions:
+  Greeter:
+    handler: src/clean/infrastructure/adapters/Greeter.handler
+    events:
+      - httpApi:
+          method: POST
+          path: /greet
+    iamRoleStatements:
+      - Effect: 'Allow'
+        Action:
+          - events:PutEvents
+        Resource: ${self:custom.eventBusArn}
+    environment:
+      REGION: ${aws:region}
+      BUS_NAME: ${self:custom.eventBusName}
+
+  GreeterEcho:
+    handler: src/clean/infrastructure/adapters/GreeterEcho.handler
+    events:
+      - eventBridge:
+          eventBus: ${self:custom.eventBusName}
+          pattern:
+            detail-type:
+              - 'greeter.greeting'
+            source:
+              - prefix: ""

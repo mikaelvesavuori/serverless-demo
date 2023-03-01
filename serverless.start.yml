@@ -1,0 +1,26 @@
+service: serverless-demo
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  architecture: arm64
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'eu-north-1'}
+  memorySize: ${opt:memory, 256}
+  timeout: ${opt:timeout, 10}
+  logRetentionInDays: ${opt:logRetentionInDays, 1}
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+
+package:
+  individually: true
+
+functions:
+  Demo:
+    handler: src/basic/demo.handler
+    events:
+      - httpApi:
+          method: GET
+          path: /

@@ -1,0 +1,30 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "sns:*",
+        "apigateway:*",
+        "s3:*",
+        "logs:*",
+        "cloudformation:*",
+        "dynamodb:*",
+        "sts:*",
+        "sqs:*",
+        "iam:*",
+        "secretsmanager:*",
+        "cloudwatch:*",
+        "appconfig:*",
+        "kms:*",
+        "ssm:*",
+        "codedeploy:*",
+        "route53:*",
+        "lambda:*",
+        "events:*",
+        "acm:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
